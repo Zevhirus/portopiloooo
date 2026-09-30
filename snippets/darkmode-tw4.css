@@ -1,0 +1,3 @@
+
+/* --- portfolio-kit: dark mode (Tailwind 4) --- */
+@custom-variant dark (&:where(.dark, .dark *));

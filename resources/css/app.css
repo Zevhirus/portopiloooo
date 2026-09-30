@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: #0d1014;
+    color: #e6e8eb;
+  }
+}
+
+@layer utilities {
+  /* Elemen mulai tersembunyi, dimunculkan lewat JS (reveal-on-scroll)
+     dengan menambah class .is-visible saat masuk layar */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Jeda bertahap untuk grid/list, tambahkan bersama .reveal */
+  .reveal-delay-1 { transition-delay: 0.08s; }
+  .reveal-delay-2 { transition-delay: 0.16s; }
+  .reveal-delay-3 { transition-delay: 0.24s; }
+  .reveal-delay-4 { transition-delay: 0.32s; }
+  .reveal-delay-5 { transition-delay: 0.4s; }
+
+  /* Kartu yang terasa hidup saat disentuh kursor */
+  .card-hover {
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    border-color: #1f5c55;
+    box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Garis bawah aksen yang tumbuh dari tengah, untuk link nav */
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    width: 0%;
+    height: 1.5px;
+    background: #5eead4;
+    transition: width 0.25s ease, left 0.25s ease;
+  }
+  .link-underline:hover::after {
+    width: 100%;
+    left: 0%;
+  }
+
+  /* Teks/border shimmer tipis, cocok untuk label "> ls ..." sesekali */
+  .shimmer-border {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(94,234,212,0.15), transparent);
+    background-size: 200% 100%;
+  }
+
+  /* Kursor terminal berkedip, untuk teks yang meniru "sedang mengetik" */
+  .caret::after {
+    content: '▍';
+    margin-left: 2px;
+    color: #5eead4;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+}
+
+/* Scrollbar tipis biar senada dengan tema gelap (opsional, kosmetik) */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #0d1014; }
+::-webkit-scrollbar-thumb { background: #1c2027; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #262b33; }
