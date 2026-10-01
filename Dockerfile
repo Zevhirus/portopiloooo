@@ -29,6 +29,10 @@ RUN apt-get update \
  && a2enmod rewrite headers \
  && rm -rf /var/lib/apt/lists/*
 
+# Pastikan HANYA satu MPM aktif (prefork, wajib untuk mod_php)
+RUN rm -f /etc/apache2/mods-enabled/mpm_event.* /etc/apache2/mods-enabled/mpm_worker.* \
+ && a2enmod mpm_prefork
+
 # Apache melayani folder /public, dan .htaccess Laravel diizinkan
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
