@@ -22,10 +22,12 @@ fi
 php artisan config:clear
 php artisan migrate --force
 
-# Isi data contoh (project, sertifikat, foto) HANYA kalau RUN_SEED=true.
-# Nyalakan sekali di deploy pertama, lalu hapus/ubah jadi false.
+# Isi data (project, sertifikat, foto) kalau RUN_SEED=true.
+# Seeder ini aman dijalankan berulang (updateOrCreate), jadi boleh dibiarkan true.
 if [ "${RUN_SEED:-false}" = "true" ]; then
-  php artisan db:seed --force || echo "Seeder gagal/duplikat, dilewati."
+  php artisan db:seed --class=ProjectSeeder --force || echo "ProjectSeeder gagal."
+  php artisan db:seed --class=CertificateSeeder --force || echo "CertificateSeeder gagal."
+  php artisan db:seed --class=PhotoSeeder --force || echo "PhotoSeeder gagal."
 fi
 
 # Buat/ubah akun admin kalau ADMIN_EMAIL & ADMIN_PASSWORD diisi
