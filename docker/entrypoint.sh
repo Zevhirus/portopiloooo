@@ -7,6 +7,10 @@ PORT="${PORT:-80}"
 sed -ri "s/^Listen .*/Listen ${PORT}/" /etc/apache2/ports.conf
 sed -ri "s/<VirtualHost \*:[0-9]+>/<VirtualHost *:${PORT}>/" /etc/apache2/sites-available/000-default.conf
 
+# Jaga-jaga: pastikan hanya satu MPM Apache yang aktif
+rm -f /etc/apache2/mods-enabled/mpm_event.* /etc/apache2/mods-enabled/mpm_worker.*
+a2enmod mpm_prefork >/dev/null 2>&1 || true
+
 # Mode SQLite: pastikan file database ada
 if [ "${DB_CONNECTION:-sqlite}" = "sqlite" ]; then
   DB_FILE="${DB_DATABASE:-/var/www/html/database/database.sqlite}"
